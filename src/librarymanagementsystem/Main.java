@@ -52,12 +52,13 @@ public class Main {
                     break;
 
                 case 2 :
-                    System.out.println("Enter Your Name : ");
-                    String issuedName = sc.nextLine();
+                    System.out.println("Enter Your id : ");
+                    int issuedId = sc.nextInt();
+                    sc.nextLine();
                     System.out.println("Enter Book Name : ");
                     String issueBookName = sc.nextLine();
 
-                    Student student = Student.findStudent(issuedName);
+                    Student student = Student.findStudent(issuedId);
                     Book book = l.findBook(issueBookName);
 
                     if( book == null && student == null ){
@@ -66,21 +67,22 @@ public class Main {
                         System.out.println("Student not registered to the library");
                     } else if( book == null ) {
                         System.out.println("Book Not Found");
-                    } else if( book.getIsIssued()){
+                    } else if( book.isIssued()){
                         System.out.println("Book is Issued");
                     } else {
-                        l.issueBook(book,issuedName);
+                        l.issueBook(book,student);
                     }
 
                     break;
 
                 case 3 :
-                    System.out.println("Enter Your Name : ");
-                    String returnName = sc.nextLine();
+                    System.out.println("Enter Your ID : ");
+                    int returnedId = sc.nextInt();
+                    sc.nextLine();
                     System.out.println("Enter Book Name : ");
                     String returnBookName = sc.nextLine();
 
-                    Student returnStudentName = Student.findStudent(returnName);
+                    Student returnStudentName = Student.findStudent(returnedId);
                     Book rBookName = l.findBook(returnBookName);
 
                     if( rBookName == null && returnStudentName == null){
@@ -89,10 +91,10 @@ public class Main {
                         System.out.println("Student not registered to the library");
                     } else if ( rBookName == null ) {
                         System.out.println("Book not Exists in the library");
-                    } else if ( !rBookName.getIsIssued() ) {
+                    } else if ( !rBookName.isIssued() ) {
                         System.out.println("Book is not issued to anyone");
                     } else {
-                        l.ReturnBook(rBookName,returnName);
+                        l.returnBook(rBookName,returnStudentName);
                     }
 
                     break;
@@ -104,10 +106,8 @@ public class Main {
                     System.out.println("Enter Your Name : ");
                     String name = sc.nextLine();
 
-                    Student regStudent = Student.findStudent(id);
-
-                    if(regStudent != null ){
-                        System.out.println("ID already exists");
+                    if( id<=0 ){
+                        System.out.println("Invalid ID");
                     } else{
                         Student.registerStudent(new Student(id,name));
                     }
@@ -119,9 +119,11 @@ public class Main {
                     sc.nextLine();
 
                     Student delStudent = Student.findStudent(deleteid);
-
+                    Book issued = l.issuedBook(delStudent);
                     if( delStudent == null ){
                         System.out.println("Student not found");
+                    } else if(issued!=null) {
+                        System.out.println("Please return"+issued);
                     } else {
                         Student.deleteStudent(delStudent);
                     }
@@ -146,5 +148,6 @@ public class Main {
             }
         }
         sc.close();
+
     }
 }

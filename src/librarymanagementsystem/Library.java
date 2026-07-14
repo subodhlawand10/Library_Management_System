@@ -4,25 +4,26 @@ import java.util.ArrayList;
 
 class Library{
 
-    ArrayList <Book> books = new ArrayList<>();
+    private ArrayList <Book> books = new ArrayList<>();
 
     public Library(ArrayList<Book> b){
         this.books.addAll(b);
     }
 
     public void addBook(String Book, String Author){
-        this.books.add(new Book(Book,Author));
-        System.out.println("Book Added : "+new Book(Book,Author) );
+        Book book = new Book(Book,Author);
+        this.books.add(book);
+        System.out.println("Book Added : "+book);
     }
 
-    public void issueBook(Book b, String name){
-        b.setIsIssued(true);
-        System.out.println(b+" Issued to : "+name+"\n");
+    public void issueBook(Book b, Student s){
+        b.setIssuedTo(s);
+        System.out.println(b+"\n");
     }
 
-    public void ReturnBook(Book b, String name){
-        b.setIsIssued(false);
-        System.out.println(b+" Returned By : "+name+"\n");
+    public void returnBook(Book b, Student s){
+        b.setIssuedTo(null);
+        System.out.println(b+" Returned By : "+s+"\n");
     }
 
     public void showBooks(){
@@ -38,6 +39,15 @@ class Library{
         for(Book book : books){
             if(book.getBookName().equalsIgnoreCase(bookName)){
                 return book;
+            }
+        }
+        return null;
+    }
+
+    public Book issuedBook(Student s){
+        for(Book b : books){
+            if(b.getIssuedTo()==s){
+                return b;
             }
         }
         return null;

@@ -14,11 +14,7 @@ class Student{
     }
 
     public void setId(int id){
-        if(id>0){
-            this.id = id;
-        } else {
-            System.out.println("Invalid ID");
-        }
+        this.id = id;
     }
 
     public String getName(){
@@ -56,19 +52,27 @@ class Student{
         return null;
     }
 
+
+
     @Override
     public String toString() {
         return "Student { id = " + id + ", Name = '" + name + "\'" + '}';
     }
 
     public static void registerStudent(Student s){
+       if(findStudent(s.getId())!= null){
+           System.out.println("Student with this ID : "+s.getId()+" already exists...");
+           return;
+       }
         students.add(s);
         System.out.println("Student Added : "+s);
     }
 
+
+
     public static void deleteStudent(Student s){
-        students.remove(s);
-        System.out.println("Student Deleted : "+s);
+            students.remove(s);
+            System.out.println("Student Deleted : "+s);
     }
 
     public static void getAllStudents() {
